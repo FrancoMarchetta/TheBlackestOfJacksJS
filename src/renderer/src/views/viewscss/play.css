@@ -1,0 +1,53 @@
+.btn-goBack{
+    margin-top: -5%;
+}
+
+.table{
+    /* border: solid red; */
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.dealer{
+    /* border: solid black; */
+    display: flex;
+    gap: 5px;
+    width: 70%;
+    rotate: 180deg;
+    margin: -7% 0 0 14%;
+    place-content: center;
+}
+
+.player{
+    /* border: solid black; */
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+}
+.player-cards{
+    display: flex;
+    gap: 5px;
+}
+
+.player-btns{
+    /* border: solid black; */
+    display: flex;
+    width: fit-content
+}
+
+.deck{
+    margin-top: -5%;
+    height: fit-content;
+    /* border: solid black; */
+}
+
+.deck img{
+    width: 13%;
+}
+
+#secondDeck{
+    rotate: 3deg;
+    margin-left: -12%;
+    margin-bottom: 1%;
+}

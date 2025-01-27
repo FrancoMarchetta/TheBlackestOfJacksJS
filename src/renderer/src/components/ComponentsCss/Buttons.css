@@ -1,0 +1,79 @@
+@keyframes Rainbow{
+    0%{
+        box-shadow: 4px 3px 20px rgb(255, 0, 0);
+    }
+    20%{
+        box-shadow: 4px 3px 20px rgb(255, 217, 0);
+    }
+    40%{
+        box-shadow: 4px 3px 20px rgb(4, 255, 0);
+    }
+    60%{
+        box-shadow: 4px 3px 20px rgb(0, 64, 255);
+    }
+    80%{
+        box-shadow: 4px 3px 20px rgb(255, 0, 238);
+    }
+    100%{
+        box-shadow: 4px 3px 20px rgb(216, 0, 4);
+
+    }
+}
+
+@keyframes ButtonLeaves{
+    0%{
+        border-radius: 0%;
+
+    }
+
+    20%{
+        border-radius: 10%;
+    }
+
+    40%{
+        border-radius: 20%;
+    }
+
+    60%{
+        border-radius: 30%;
+    }
+
+    80%{
+        border-radius: 40%;
+
+    }
+
+    100%{
+        border-radius: 50%;
+    }
+}
+
+
+
+button{
+    color: #fff;
+    background-color: #CE1818;
+    font-family: jaro;
+    font-size: 5vh;
+    width: 24vh;
+    height: 10vh;
+    border-radius: 8px;
+    transition: .6s;
+    text-shadow: 4px 3px 10px black;
+    box-shadow: 4px 3px 10px black;
+}
+
+button:hover{
+    /* color: #000; */
+    cursor: pointer;
+    /* box-shadow: 4px 3px 20px rgb(255, 255, 255); */
+
+    
+
+    animation-duration: 7s;
+    animation-name: Rainbow;
+    animation-iteration-count: infinite;
+
+}
+
+

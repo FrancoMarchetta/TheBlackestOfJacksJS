@@ -1,0 +1,17 @@
+h1{
+    color: #fff;
+    display: flex;
+    place-content: center;
+    font-size: 10vh;
+    font-family: jaro;
+    font-weight: 100;
+    text-shadow: 4px 3px 10px black;
+}
+
+.Buttons-zone{
+    margin-top: 10%;
+    /* border: solid black; */
+    display: flex;
+    place-content: center;
+    gap: 6%;
+}
