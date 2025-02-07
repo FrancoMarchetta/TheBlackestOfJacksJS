@@ -1,72 +1,82 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Buttons from "@renderer/components/Buttons";
 import Cards from "@renderer/components/Cards";
 import "./viewscss/play.css";
 
 export const Play = () => {
-  // Array de rutas para las cartas
+  // Array de rutas para las cartas con rutas corregidas
   const routes = [
-    "../../../public/cards/svg/image 1.svg",
-    "../../../public/cards/svg/image 2.svg",
-    "../../../public/cards/svg/image 3.svg",
-    "../../../public/cards/svg/image 4.svg",
-    "../../../public/cards/svg/image 5.svg",
-    "../../../public/cards/svg/image 6.svg",
-    "../../../public/cards/svg/image 7.svg",
-    "../../../public/cards/svg/image 8.svg",
-    "../../../public/cards/svg/image 9.svg",
-    "../../../public/cards/svg/image 10.svg",
-    "../../../public/cards/svg/image 11.svg",
-    "../../../public/cards/svg/image 12.svg",
-    "../../../public/cards/svg/image 13.svg",
-    "../../../public/cards/svg/image 14.svg",
-    "../../../public/cards/svg/image 15.svg",
-    "../../../public/cards/svg/image 16.svg",
-    "../../../public/cards/svg/image 17.svg",
-    "../../../public/cards/svg/image 18.svg",
-    "../../../public/cards/svg/image 19.svg",
-    "../../../public/cards/svg/image 20.svg",
-    "../../../public/cards/svg/image 21.svg",
-    "../../../public/cards/svg/image 22.svg",
-    "../../../public/cards/svg/image 23.svg",
-    "../../../public/cards/svg/image 24.svg",
-    "../../../public/cards/svg/image 25.svg",
-    "../../../public/cards/svg/image 26.svg",
-    "../../../public/cards/svg/image 27.svg",
-    "../../../public/cards/svg/image 28.svg",
-    "../../../public/cards/svg/image 29.svg",
-    "../../../public/cards/svg/image 30.svg",
-    "../../../public/cards/svg/image 31.svg",
-    "../../../public/cards/svg/image 32.svg",
-    "../../../public/cards/svg/image 33.svg",
-    "../../../public/cards/svg/image 34.svg",
-    "../../../public/cards/svg/image 35.svg",
-    "../../../public/cards/svg/image 36.svg",
-    "../../../public/cards/svg/image 37.svg",
-    "../../../public/cards/svg/image 38.svg",
-    "../../../public/cards/svg/image 39.svg",
-    "../../../public/cards/svg/image 40.svg",
-    "../../../public/cards/svg/image 41.svg",
-    "../../../public/cards/svg/image 42.svg",
-    "../../../public/cards/svg/image 43.svg",
-    "../../../public/cards/svg/image 44.svg",
-    "../../../public/cards/svg/image 45.svg",
-    "../../../public/cards/svg/image 46.svg",
-    "../../../public/cards/svg/image 47.svg",
-    "../../../public/cards/svg/image 48.svg",
-    "../../../public/cards/svg/image 49.svg",
-    "../../../public/cards/svg/image 50.svg",
-    "../../../public/cards/svg/image 51.svg",
-    "../../../public/cards/svg/image 52.svg",
+    // Diamantes
+    { path: "../../../public/cards/svg/image 1.svg", value: "A", suit: "diamante" },
+    { path: "../../../public/cards/svg/image 2.svg", value: "2", suit: "diamante" },
+    { path: "../../../public/cards/svg/image 3.svg", value: "3", suit: "diamante" },
+    { path: "../../../public/cards/svg/image 4.svg", value: "4", suit: "diamante" },
+    { path: "../../../public/cards/svg/image 5.svg", value: "5", suit: "diamante" },
+    { path: "../../../public/cards/svg/image 6.svg", value: "6", suit: "diamante" },
+    { path: "../../../public/cards/svg/image 7.svg", value: "7", suit: "diamante" },
+    { path: "../../../public/cards/svg/image 8.svg", value: "8", suit: "diamante" },
+    { path: "../../../public/cards/svg/image 9.svg", value: "9", suit: "diamante" },
+    { path: "../../../public/cards/svg/image 10.svg", value: "10", suit: "diamante" },
+    { path: "../../../public/cards/svg/image 11.svg", value: "10", suit: "diamante" },
+    { path: "../../../public/cards/svg/image 12.svg", value: "10", suit: "diamante" },
+    { path: "../../../public/cards/svg/image 13.svg", value: "10", suit: "diamante" },
+
+    // Tréboles
+    { path: "../../../public/cards/svg/image 14.svg", value: "A", suit: "trébol" },
+    { path: "../../../public/cards/svg/image 15.svg", value: "2", suit: "trébol" },
+    { path: "../../../public/cards/svg/image 16.svg", value: "3", suit: "trébol" },
+    { path: "../../../public/cards/svg/image 17.svg", value: "4", suit: "trébol" },
+    { path: "../../../public/cards/svg/image 18.svg", value: "5", suit: "trébol" },
+    { path: "../../../public/cards/svg/image 19.svg", value: "6", suit: "trébol" },
+    { path: "../../../public/cards/svg/image 20.svg", value: "7", suit: "trébol" },
+    { path: "../../../public/cards/svg/image 21.svg", value: "8", suit: "trébol" },
+    { path: "../../../public/cards/svg/image 22.svg", value: "9", suit: "trébol" },
+    { path: "../../../public/cards/svg/image 23.svg", value: "10", suit: "trébol" },
+    { path: "../../../public/cards/svg/image 24.svg", value: "10", suit: "trébol" },
+    { path: "../../../public/cards/svg/image 25.svg", value: "10", suit: "trébol" },
+    { path: "../../../public/cards/svg/image 26.svg", value: "10", suit: "trébol" },
+
+    // Corazones
+    { path: "../../../public/cards/svg/image 27.svg", value: "A", suit: "corazón" },
+    { path: "../../../public/cards/svg/image 28.svg", value: "2", suit: "corazón" },
+    { path: "../../../public/cards/svg/image 29.svg", value: "3", suit: "corazón" },
+    { path: "../../../public/cards/svg/image 30.svg", value: "4", suit: "corazón" },
+    { path: "../../../public/cards/svg/image 31.svg", value: "5", suit: "corazón" },
+    { path: "../../../public/cards/svg/image 32.svg", value: "6", suit: "corazón" },
+    { path: "../../../public/cards/svg/image 33.svg", value: "7", suit: "corazón" },
+    { path: "../../../public/cards/svg/image 34.svg", value: "8", suit: "corazón" },
+    { path: "../../../public/cards/svg/image 35.svg", value: "9", suit: "corazón" },
+    { path: "../../../public/cards/svg/image 36.svg", value: "10", suit: "corazón" },
+    { path: "../../../public/cards/svg/image 37.svg", value: "10", suit: "corazón" },
+    { path: "../../../public/cards/svg/image 38.svg", value: "10", suit: "corazón" },
+    { path: "../../../public/cards/svg/image 39.svg", value: "10", suit: "corazón" },
+
+    // Picas
+    { path: "../../../public/cards/svg/image 40.svg", value: "A", suit: "pica" },
+    { path: "../../../public/cards/svg/image 41.svg", value: "2", suit: "pica" },
+    { path: "../../../public/cards/svg/image 42.svg", value: "3", suit: "pica" },
+    { path: "../../../public/cards/svg/image 43.svg", value: "4", suit: "pica" },
+    { path: "../../../public/cards/svg/image 44.svg", value: "5", suit: "pica" },
+    { path: "../../../public/cards/svg/image 45.svg", value: "6", suit: "pica" },
+    { path: "../../../public/cards/svg/image 46.svg", value: "7", suit: "pica" },
+    { path: "../../../public/cards/svg/image 47.svg", value: "8", suit: "pica" },
+    { path: "../../../public/cards/svg/image 48.svg", value: "9", suit: "pica" },
+    { path: "../../../public/cards/svg/image 49.svg", value: "10", suit: "pica" },
+    { path: "../../../public/cards/svg/image 50.svg", value: "10", suit: "pica" },
+    { path: "../../../public/cards/svg/image 51.svg", value: "10", suit: "pica" },
+    { path: "../../../public/cards/svg/image 52.svg", value: "10", suit: "pica" }
   ];
 
   const [playerCards, setPlayerCards] = useState([]);
+  const [dealerCards, setDealerCards] = useState([]);
 
   // Función para añadir una nueva carta
   const hit = () => {
-    const randomIndex = Math.floor(Math.random() * routes.length); // Selecciona una carta aleatoria
-    setPlayerCards((prev) => [...prev, routes[randomIndex]]); // Agrega la carta al estado
+    const randomIndex = Math.floor(Math.random() * routes.length);
+    setPlayerCards((prev) => [...prev, routes[randomIndex]]);
+    console.log(playerPoints);
+
   };
 
   // Sonido
@@ -77,19 +87,45 @@ export const Play = () => {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
-
-    audioRef.current = new Audio("../../public/sounds/woodenClick.mp3");
+    audioRef.current = new Audio("/sounds/woodenClick.mp3");
     audioRef.current.play().catch((err) => {
       console.error("Error al reproducir el audio:", err);
     });
   };
 
-  const path = useNavigate();
+  const navigate = useNavigate();
   const goToHome = () => {
     playSound();
-    document.body.style.backgroundImage = "URL(../public/images/bgimage.png)";
-    path("/");
+    document.body.style.backgroundImage = "url(/images/bgimage.png)";
+    navigate("/");
   };
+
+  function hitDealer() {
+    const randomIndex = Math.floor(Math.random() * routes.length);
+    setDealerCards((prev) => [...prev, routes[randomIndex]]);
+  }
+
+  useEffect(() => {
+    hitDealer();
+
+
+  }, []);
+
+  let playerPoints = routes.value + routes.value
+  let dealerPoints = routes.value + routes.value
+
+  const [isHidden, setIsHidden] = useState(false);
+  function playOponent() {
+    setIsHidden(true);
+
+    setInterval(() => {
+      console.log(dealerPoints);
+
+      hitDealer();
+    }, 2000);
+
+  }
+
 
   return (
     <>
@@ -99,23 +135,25 @@ export const Play = () => {
 
       <main className="table">
         <div className="dealer">
-          <Cards route={routes[0]} />
+          {dealerCards.map((card, index) => (
+            <Cards key={index} route={card.path} value={card.value} />
+          ))}
         </div>
 
         <div className="deck">
-          <img src="../../../public/cards/backOfDeck.png" alt="" />
-          <img id="secondDeck" src="../../../public/cards/backOfDeck.png" alt="" />
+          <img src="../../../public/cards/BackOfDeck.png" alt="Deck" />
+          <img id="secondDeck" src="../../../public/cards/BackOfDeck.png" alt="Deck" />
         </div>
 
         <div className="player">
           <div className="player-cards">
             {/* Renderiza las cartas del jugador */}
-            {playerCards.map((route, index) => (
-              <Cards key={index} route={route} />
+            {playerCards.map((card, index) => (
+              <Cards key={index} route={card.path} value={card.value} />
             ))}
           </div>
 
-          <div className="player-btns">
+          <div className={isHidden ? "hideButton" : "player-btns"} >
             <Buttons
               onClick={() => {
                 hit();
@@ -123,10 +161,10 @@ export const Play = () => {
               }}
               text={"Hit"}
             />
-            <Buttons onClick={() => { }} text={"Stand"} />
+            <Buttons onClick={playOponent} text={"Stand"} />
           </div>
         </div>
-      </main>
+      </main >
     </>
   );
 };

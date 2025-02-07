@@ -19,7 +19,6 @@ const HomePage = () => {
     });
   };
   /////////////////////////////////////////////////////////
-
   const path = useNavigate();
 
   const changeBg = () => {
@@ -36,7 +35,19 @@ const HomePage = () => {
   return (
     <>
       <main>
-        <h1>The Blackest Of Jacks</h1>
+        <div className="titleDiv">
+          {/* <h1 id="Title1">The</h1>
+          <h1 id="Title2">Blackest</h1>
+          <h1 id="Title3">Of</h1>
+          <h1 id="Title4">Jacks</h1> */}
+
+          <h1>The Blackest Of Jacks</h1>
+
+          {/* <div className="sign">
+            <span className="fast-flicker">The </span> Blackest <span className="flicker"> Of </span> Jacks
+          </div> */}
+
+        </div>
 
         <div className="Buttons-zone">
           <a href="https://github.com/FrancoMarchetta" target="_blank" rel="noopener noreferrer">
