@@ -4,7 +4,7 @@ const Cards = ({ route, value }) => {
   return (
     <main>
       <img className='Card' src={route} alt="" />
-      <p style={{ display: "flex", placeContent: "center" }}>{value}</p>
+      {/* <p style={{ display: "flex", placeContent: "center" }}>{value}</p> */}
     </main>
   )
 }

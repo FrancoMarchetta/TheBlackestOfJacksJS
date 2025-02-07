@@ -5,6 +5,16 @@ import Cards from "@renderer/components/Cards";
 import "./viewscss/play.css";
 
 export const Play = () => {
+  let playerPoints = 0;
+  let dealerPoints = 0;
+
+  const [playerCards, setPlayerCards] = useState([]);
+  const [dealerCards, setDealerCards] = useState([]);
+
+  const navigate = useNavigate();
+
+  const [isHidden, setIsHidden] = useState(false);
+
   // Array de rutas para las cartas con rutas corregidas
   const routes = [
     // Diamantes
@@ -68,9 +78,6 @@ export const Play = () => {
     { path: "../../../public/cards/svg/image 52.svg", value: "10", suit: "pica" }
   ];
 
-  const [playerCards, setPlayerCards] = useState([]);
-  const [dealerCards, setDealerCards] = useState([]);
-
   // Función para añadir una nueva carta
   const hit = () => {
     const randomIndex = Math.floor(Math.random() * routes.length);
@@ -78,6 +85,16 @@ export const Play = () => {
     console.log(playerPoints);
 
   };
+
+  function hitDealer() {
+    const randomIndex = Math.floor(Math.random() * routes.length);
+    setDealerCards((prev) => [...prev, routes[randomIndex]]);
+    dealerPoints = dealerPoints + routes.value
+    console.log(dealerPoints);
+
+  }
+
+
 
   // Sonido
   const audioRef = useRef(null);
@@ -93,17 +110,13 @@ export const Play = () => {
     });
   };
 
-  const navigate = useNavigate();
   const goToHome = () => {
     playSound();
     document.body.style.backgroundImage = "url(/images/bgimage.png)";
     navigate("/");
   };
 
-  function hitDealer() {
-    const randomIndex = Math.floor(Math.random() * routes.length);
-    setDealerCards((prev) => [...prev, routes[randomIndex]]);
-  }
+
 
   useEffect(() => {
     hitDealer();
@@ -111,16 +124,11 @@ export const Play = () => {
 
   }, []);
 
-  let playerPoints = routes.value + routes.value
-  let dealerPoints = routes.value + routes.value
 
-  const [isHidden, setIsHidden] = useState(false);
   function playOponent() {
     setIsHidden(true);
 
     setInterval(() => {
-      console.log(dealerPoints);
-
       hitDealer();
     }, 2000);
 
