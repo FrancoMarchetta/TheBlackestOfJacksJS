@@ -36,10 +36,6 @@ const HomePage = () => {
     <>
       <main>
         <div className="titleDiv">
-          {/* <h1 id="Title1">The</h1>
-          <h1 id="Title2">Blackest</h1>
-          <h1 id="Title3">Of</h1>
-          <h1 id="Title4">Jacks</h1> */}
 
           <h1>The Blackest Of Jacks</h1>
 

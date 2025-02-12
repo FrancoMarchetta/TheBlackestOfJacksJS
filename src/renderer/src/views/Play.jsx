@@ -5,8 +5,9 @@ import Cards from "@renderer/components/Cards";
 import "./viewscss/play.css";
 
 export const Play = () => {
-  let playerPoints = 0;
-  let dealerPoints = 0;
+
+  const [playerPoints, setPlayerPoints] = useState(0)
+  const [dealerPoints, setDealerPoints] = useState(0)
 
   const [playerCards, setPlayerCards] = useState([]);
   const [dealerCards, setDealerCards] = useState([]);
@@ -27,14 +28,14 @@ export const Play = () => {
     { path: "../../../public/cards/svg/image 7.svg", value: "7", suit: "diamante" },
     { path: "../../../public/cards/svg/image 8.svg", value: "8", suit: "diamante" },
     { path: "../../../public/cards/svg/image 9.svg", value: "9", suit: "diamante" },
-    { path: "../../../public/cards/svg/image 10.svg", value: "10", suit: "diamante" },
     { path: "../../../public/cards/svg/image 11.svg", value: "10", suit: "diamante" },
+    { path: "../../../public/cards/svg/image 10.svg", value: "10", suit: "diamante" },
     { path: "../../../public/cards/svg/image 12.svg", value: "10", suit: "diamante" },
     { path: "../../../public/cards/svg/image 13.svg", value: "10", suit: "diamante" },
 
     // Tréboles
-    { path: "../../../public/cards/svg/image 14.svg", value: "A", suit: "trébol" },
     { path: "../../../public/cards/svg/image 15.svg", value: "2", suit: "trébol" },
+    { path: "../../../public/cards/svg/image 14.svg", value: "A", suit: "trébol" },
     { path: "../../../public/cards/svg/image 16.svg", value: "3", suit: "trébol" },
     { path: "../../../public/cards/svg/image 17.svg", value: "4", suit: "trébol" },
     { path: "../../../public/cards/svg/image 18.svg", value: "5", suit: "trébol" },
@@ -79,22 +80,59 @@ export const Play = () => {
   ];
 
   // Función para añadir una nueva carta
+
+  const playerPoinstRef = useRef(0);
+  const dealerPoinstRef = useRef(0);
+
+
   const hit = () => {
     const randomIndex = Math.floor(Math.random() * routes.length);
     setPlayerCards((prev) => [...prev, routes[randomIndex]]);
-    console.log(playerPoints);
 
+    if (routes[randomIndex].value == "A" && playerPoinstRef.current < 21) {
+      routes[randomIndex].value = 11;
+    }
+    if (routes[randomIndex].value == "A" && playerPoinstRef.current > 21) {
+      routes[randomIndex].value = 1;
+    }
+    playerPoinstRef.current = parseInt(playerPoinstRef.current) + parseInt(routes[randomIndex].value);
+
+    console.log("player points: " + playerPoinstRef.current);
   };
 
   function hitDealer() {
     const randomIndex = Math.floor(Math.random() * routes.length);
     setDealerCards((prev) => [...prev, routes[randomIndex]]);
-    dealerPoints = dealerPoints + routes.value
-    console.log(dealerPoints);
+
+    if (routes[randomIndex].value == "A" && dealerPoinstRef.current < 21) {
+      routes[randomIndex].value = 11;
+    }
+    if (routes[randomIndex].value == "A" && dealerPoinstRef.current > 21) {
+      routes[randomIndex].value = 1;
+    }
+    dealerPoinstRef.current = parseInt(dealerPoinstRef.current) + parseInt(routes[randomIndex].value);
+
+    console.log("dealer points: " + dealerPoinstRef.current);
+
 
   }
 
 
+  useEffect(() => {
+    hitDealer();
+
+
+  }, []);
+
+
+  function playOponent() {
+    setIsHidden(true);
+
+    setInterval(() => {
+      hitDealer();
+    }, 2000);
+
+  }
 
   // Sonido
   const audioRef = useRef(null);
@@ -118,21 +156,6 @@ export const Play = () => {
 
 
 
-  useEffect(() => {
-    hitDealer();
-
-
-  }, []);
-
-
-  function playOponent() {
-    setIsHidden(true);
-
-    setInterval(() => {
-      hitDealer();
-    }, 2000);
-
-  }
 
 
   return (
