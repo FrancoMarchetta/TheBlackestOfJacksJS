@@ -149,12 +149,12 @@ export const Play = () => {
 
   if (playerPoinstRef.current == 21 && dealerPoinstRef.current != 21) {
     clearInterval(dealerIntervalRef.current);
-    alert("player wins!!");
+    alert("YOU WIN!!");
   }
 
   if (playerPoinstRef.current != 21 && dealerPoinstRef.current == 21) {
     clearInterval(dealerIntervalRef.current);
-    alert("Dealer wins!!");
+    alert("YOU LOSE...");
   }
 
   if (playerPoinstRef.current == 21 && dealerPoinstRef.current == 21) {
@@ -163,7 +163,7 @@ export const Play = () => {
   }
 
   if (playerPoinstRef.current > 21) {
-    alert("You Lost");
+    alert("YOU LOSE");
     goToHome()
   }
 
@@ -175,8 +175,10 @@ export const Play = () => {
 
 
 
-  //no se por que pero esta shit de alguna manera evita que se rompa todo
-  //Absolutamente magico...
+  //Hace que cuando se cargue por primera vez la pagina se repartan primero las cartas de dealer.
+  //sin esta funcion se rompe toda la interfaz.
+  //parece que por alguna razon todo todo depende de que se reparta primero al dealer o sino todo deja de funcionar
+  //Absolutamente Magico...
   useEffect(() => {
     hitDealer();
   }, []);
