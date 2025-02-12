@@ -16,6 +16,35 @@ export const Play = () => {
 
   const [isHidden, setIsHidden] = useState(false);
 
+
+  const playerPoinstRef = useRef(0);
+  const dealerPoinstRef = useRef(0);
+
+  const dealerIntervalRef = useRef(null);
+
+  // Sonido
+  const audioRef = useRef(null);
+
+  const playSound = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
+    audioRef.current = new Audio("/sounds/woodenClick.mp3");
+    audioRef.current.play().catch((err) => {
+      console.error("Error al reproducir el audio:", err);
+    });
+  };
+
+
+  const goToHome = () => {
+    playSound();
+    document.body.style.backgroundImage = "url(/images/bgimage.png)";
+    navigate("/");
+  };
+
+
+
   // Array de rutas para las cartas con rutas corregidas
   const routes = [
     // Diamantes
@@ -81,8 +110,6 @@ export const Play = () => {
 
   // Función para añadir una nueva carta
 
-  const playerPoinstRef = useRef(0);
-  const dealerPoinstRef = useRef(0);
 
 
   const hit = () => {
@@ -118,41 +145,55 @@ export const Play = () => {
   }
 
 
+  // verificar si hay ganador o empate
+
+  if (playerPoinstRef.current == 21 && dealerPoinstRef.current != 21) {
+    clearInterval(dealerIntervalRef.current);
+    alert("player wins!!");
+  }
+
+  if (playerPoinstRef.current != 21 && dealerPoinstRef.current == 21) {
+    clearInterval(dealerIntervalRef.current);
+    alert("Dealer wins!!");
+  }
+
+  if (playerPoinstRef.current == 21 && dealerPoinstRef.current == 21) {
+    clearInterval(dealerIntervalRef.current);
+    alert("DRAW...");
+  }
+
+  if (playerPoinstRef.current > 21) {
+    alert("You Lost");
+    goToHome()
+  }
+
+  if (dealerPoinstRef.current > 21) {
+    clearInterval(dealerIntervalRef.current);
+    alert("YOU WIN!!");
+    goToHome()
+  }
+
+
+
+  //no se por que pero esta shit de alguna manera evita que se rompa todo
+  //Absolutamente magico...
   useEffect(() => {
     hitDealer();
-
-
   }, []);
+
+
 
 
   function playOponent() {
     setIsHidden(true);
 
-    setInterval(() => {
+    dealerIntervalRef.current = setInterval(() => {
       hitDealer();
     }, 2000);
 
   }
 
-  // Sonido
-  const audioRef = useRef(null);
 
-  const playSound = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    }
-    audioRef.current = new Audio("/sounds/woodenClick.mp3");
-    audioRef.current.play().catch((err) => {
-      console.error("Error al reproducir el audio:", err);
-    });
-  };
-
-  const goToHome = () => {
-    playSound();
-    document.body.style.backgroundImage = "url(/images/bgimage.png)";
-    navigate("/");
-  };
 
 
 
