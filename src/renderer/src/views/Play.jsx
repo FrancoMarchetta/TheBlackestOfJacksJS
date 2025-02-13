@@ -6,8 +6,10 @@ import "./viewscss/play.css";
 
 export const Play = () => {
 
-  const [playerPoints, setPlayerPoints] = useState(0)
-  const [dealerPoints, setDealerPoints] = useState(0)
+  // const [playerPoints, setPlayerPoints] = useState(0)
+  // const [dealerPoints, setDealerPoints] = useState(0)
+
+  let starting;
 
   const [playerCards, setPlayerCards] = useState([]);
   const [dealerCards, setDealerCards] = useState([]);
@@ -116,12 +118,13 @@ export const Play = () => {
     const randomIndex = Math.floor(Math.random() * routes.length);
     setPlayerCards((prev) => [...prev, routes[randomIndex]]);
 
-    if (routes[randomIndex].value == "A" && playerPoinstRef.current < 21) {
+    if (routes[randomIndex].value == "A" && playerPoinstRef.current + 11 <= 21) {
       routes[randomIndex].value = 11;
     }
-    if (routes[randomIndex].value == "A" && playerPoinstRef.current > 21) {
+    if (routes[randomIndex].value == "A" && playerPoinstRef.current + 11 > 21) {
       routes[randomIndex].value = 1;
     }
+
     playerPoinstRef.current = parseInt(playerPoinstRef.current) + parseInt(routes[randomIndex].value);
 
     console.log("player points: " + playerPoinstRef.current);
@@ -131,10 +134,10 @@ export const Play = () => {
     const randomIndex = Math.floor(Math.random() * routes.length);
     setDealerCards((prev) => [...prev, routes[randomIndex]]);
 
-    if (routes[randomIndex].value == "A" && dealerPoinstRef.current < 21) {
+    if (routes[randomIndex].value == "A" && dealerPoinstRef.current + 11 <= 21) {
       routes[randomIndex].value = 11;
     }
-    if (routes[randomIndex].value == "A" && dealerPoinstRef.current > 21) {
+    if (routes[randomIndex].value == "A" && dealerPoinstRef.current + 11 > 21) {
       routes[randomIndex].value = 1;
     }
     dealerPoinstRef.current = parseInt(dealerPoinstRef.current) + parseInt(routes[randomIndex].value);
@@ -146,41 +149,53 @@ export const Play = () => {
 
 
   // verificar si hay ganador o empate
+  // temporizador para asegurarme de que primero se muestre la carta y despues se muestre el mensaje
+  setTimeout(() => {
 
-  if (playerPoinstRef.current == 21 && dealerPoinstRef.current != 21) {
-    clearInterval(dealerIntervalRef.current);
-    alert("YOU WIN!!");
-  }
+    if (playerPoinstRef.current == 21 && dealerPoinstRef.current != 21) {
+      clearInterval(dealerIntervalRef.current);
+      alert("YOU HAVE BLACKJACK!! YOU WIN!!");
+      goToHome()
 
-  if (playerPoinstRef.current != 21 && dealerPoinstRef.current == 21) {
-    clearInterval(dealerIntervalRef.current);
-    alert("YOU LOSE...");
-  }
+    }
 
-  if (playerPoinstRef.current == 21 && dealerPoinstRef.current == 21) {
-    clearInterval(dealerIntervalRef.current);
-    alert("DRAW...");
-  }
+    if (playerPoinstRef.current != 21 && dealerPoinstRef.current == 21) {
+      clearInterval(dealerIntervalRef.current);
+      alert("YOU LOSE... Dealer Has BlackJack");
+      goToHome()
 
-  if (playerPoinstRef.current > 21) {
-    alert("YOU LOSE");
-    goToHome()
-  }
+    }
 
-  if (dealerPoinstRef.current > 21) {
-    clearInterval(dealerIntervalRef.current);
-    alert("YOU WIN!!");
-    goToHome()
-  }
+    if (playerPoinstRef.current == 21 && dealerPoinstRef.current == 21) {
+      clearInterval(dealerIntervalRef.current);
+      alert("DRAW...");
+      goToHome()
 
+    }
+
+    if (playerPoinstRef.current > 21) {
+      alert("YOU LOSE");
+      goToHome()
+    }
+
+    if (dealerPoinstRef.current > 21) {
+      clearInterval(dealerIntervalRef.current);
+      alert("YOU WIN!!");
+      goToHome()
+    }
+
+  }, 1000);
 
 
   //Hace que cuando se cargue por primera vez la pagina se repartan primero las cartas de dealer.
-  //sin esta funcion se rompe toda la interfaz.
+  //sin esta cagada se rompe toda la interfaz.
   //parece que por alguna razon todo todo depende de que se reparta primero al dealer o sino todo deja de funcionar
   //Absolutamente Magico...
+
+
   useEffect(() => {
     hitDealer();
+    hit();
   }, []);
 
 
@@ -211,6 +226,7 @@ export const Play = () => {
         <div className="dealer">
           {dealerCards.map((card, index) => (
             <Cards key={index} route={card.path} value={card.value} />
+
           ))}
         </div>
 
