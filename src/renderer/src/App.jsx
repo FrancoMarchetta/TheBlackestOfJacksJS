@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./views/HomePage";
 import { Play } from "./views/Play";
 import { useRef, useState } from "react";
@@ -28,7 +28,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <Router>
         {/* Controlador del sonido */}
         {musicOn ? (
           <img
@@ -56,7 +56,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/play" element={<Play />} />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </>
   );
 }
