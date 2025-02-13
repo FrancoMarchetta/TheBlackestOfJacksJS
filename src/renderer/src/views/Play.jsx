@@ -144,7 +144,6 @@ export const Play = () => {
 
     console.log("dealer points: " + dealerPoinstRef.current);
 
-
   }
 
 
@@ -211,11 +210,6 @@ export const Play = () => {
   }
 
 
-
-
-
-
-
   return (
     <>
       <div className="btn-goBack">
@@ -253,6 +247,7 @@ export const Play = () => {
             />
             <Buttons onClick={playOponent} text={"Stand"} />
           </div>
+          {/* <p>puntos: </p> */}
         </div>
       </main >
     </>
