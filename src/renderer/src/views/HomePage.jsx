@@ -13,7 +13,7 @@ const HomePage = () => {
       audioRef.current.currentTime = 10;
     }
 
-    audioRef.current = new Audio("../../public/sounds/woodenClick.mp3");
+    audioRef.current = new Audio("public/sounds/woodenClick.mp3");
     audioRef.current.play().catch((err) => {
       console.error("Error al reproducir el audio:", err);
     });

@@ -1,9 +1,9 @@
 {
   "name": "theblackestofjacks",
   "version": "1.0.0",
-  "description": "An Electron application with React",
+  "description": "A simple blackJack game built with electron and react",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "https://github.com/FrancoMarchetta",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
@@ -35,5 +35,30 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "vite": "^5.3.1"
+  },
+  "build": {
+    "appId": "com.tuapp.theblackestofjacks",
+    "productName": "The Blackest of Jacks",
+    "copyright": "Copyright © 2024 ${author}",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "out/**/*",
+      "public/**/*" 
+    ],
+    "extraResources": [
+      "build/icon.*" 
+    ],
+    "win": {
+      "target": "nsis" 
+    },
+    "mac": {
+      "target": "dmg" 
+    },
+    "linux": {
+      "target": "deb"
+    }
   }
 }

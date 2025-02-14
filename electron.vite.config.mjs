@@ -15,6 +15,11 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
-    plugins: [react()]
-  }
+    plugins: [react()],
+    build: { 
+      outDir: 'dist/renderer',
+      assetsDir: 'assets', //  <-- Nombre de la carpeta para los assets en la build
+      copyPublicDir: true, 
+    },
+  },
 })
