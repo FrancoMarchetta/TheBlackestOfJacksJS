@@ -11,7 +11,7 @@ function App() {
   //Crear y controlar la música
   const toggleMusic = () => {
     if (!audioRef.current) {
-      audioRef.current = new Audio("public/sounds/BackgroundMusic.mp3");
+      audioRef.current = new Audio("/sounds/BackgroundMusic.mp3");
       audioRef.current.loop = true;
     }
 
@@ -37,7 +37,7 @@ function App() {
               setMusicOn(false);
               toggleMusic();
             }}
-            src="public/images/soundOff.svg"
+            src="/images/soundOff.svg"
             alt="Mute"
           />
         ) : (
@@ -47,7 +47,7 @@ function App() {
               setMusicOn(true);
               toggleMusic();
             }}
-            src="public/images/soundOn.svg"
+            src="/images/soundOn.svg"
             alt="Unmute"
           />
         )}
