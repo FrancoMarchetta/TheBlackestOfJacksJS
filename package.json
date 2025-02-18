@@ -37,6 +37,7 @@
     "vite": "^5.3.1"
   },
   "build": {
+    
     "appId": "com.tuapp.theblackestofjacks",
     "productName": "The Blackest of Jacks",
     "copyright": "Copyright © 2024 ${author}",
@@ -49,7 +50,13 @@
       "public/**/*" 
     ],
     "extraResources": [
-      "build/icon.*" 
+      {
+        "from": "public",
+      "to": "resources",
+      "filter": ["**/*"]
+    },
+      "build/icon.*"
+
     ],
     "win": {
       "target": "nsis" 
