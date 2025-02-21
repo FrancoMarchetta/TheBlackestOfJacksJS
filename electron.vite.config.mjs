@@ -20,6 +20,14 @@ export default defineConfig({
       outDir: 'dist/renderer',
       assetsDir: 'assets', //  <-- Nombre de la carpeta para los assets en la build
       copyPublicDir: true, 
+      rollupOptions: {
+        input: {
+          main: resolve(__dirname, 'src/renderer/index.html')
+        },
+        output: {
+          assetFileNames: 'assets/[name].[hash][extname]'
+        }
+      }
     },
   },
 })
