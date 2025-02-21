@@ -2,6 +2,9 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./views/HomePage";
 import { Play } from "./views/Play";
 import { useRef, useState } from "react";
+import soundOff from "./assets/images/soundOff.svg";
+import soundOn from "./assets/images/soundOn.svg";
+import backgroundMusic from "./assets/sounds/BackgroundMusic.mp3";
 
 function App() {
   const [musicOn, setMusicOn] = useState(true); // se usa para hacer que cambie el icono, no para gestionar la musica como tal
@@ -11,7 +14,7 @@ function App() {
   //Crear y controlar la música
   const toggleMusic = () => {
     if (!audioRef.current) {
-      audioRef.current = new Audio(import("./assets/sounds/BackgroundMusic.mp3"));
+      audioRef.current = new Audio(backgroundMusic);
       audioRef.current.loop = true;
     }
 
@@ -37,7 +40,7 @@ function App() {
               setMusicOn(false);
               toggleMusic();
             }}
-            src={import("./assets/images/soundOff.svg")}
+            src={soundOff}
             alt="Mute"
           />
         ) : (
@@ -47,7 +50,7 @@ function App() {
               setMusicOn(true);
               toggleMusic();
             }}
-            src={import("./assets/images/soundOn.svg")}
+            src={soundOn}
             alt="Unmute"
           />
         )}

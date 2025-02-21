@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "../views/viewscss/HomePage.css";
 import Buttons from "@renderer/components/Buttons";
 import { useRef } from "react";
+import woodenClick from "../assets/sounds/woodenClick.mp3";
 
 const HomePage = () => {
   /////////////////sonidos de botones///////////////////////////
@@ -13,7 +14,7 @@ const HomePage = () => {
       audioRef.current.currentTime = 10;
     }
 
-    audioRef.current = new Audio(import("../assets/sounds/woodenClick.mp3"));
+    audioRef.current = new Audio(woodenClick);
     audioRef.current.play().catch((err) => {
       console.error("Error al reproducir el audio:", err);
     });
