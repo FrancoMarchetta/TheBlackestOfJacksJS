@@ -6,21 +6,16 @@ import "./viewscss/play.css";
 
 export const Play = () => {
 
-  // const [playerPoints, setPlayerPoints] = useState(0)
-  // const [dealerPoints, setDealerPoints] = useState(0)
-
-  let starting;
-
   const [playerCards, setPlayerCards] = useState([]);
   const [dealerCards, setDealerCards] = useState([]);
+  const [gameStatus, setGameStatus] = useState('playing'); // 'playing', 'ended'
 
   const navigate = useNavigate();
 
   const [isHidden, setIsHidden] = useState(false);
 
-
-  const playerPoinstRef = useRef(0);
-  const dealerPoinstRef = useRef(0);
+  const playerPointsRef = useRef(0);
+  const dealerPointsRef = useRef(0);
 
   const dealerIntervalRef = useRef(null);
 
@@ -107,103 +102,100 @@ export const Play = () => {
     { path: "cards/svg/image 52.svg", value: "10", suit: "pica" }
   ];
 
-  // Función para añadir una nueva carta
-
-
-
-  const hit = () => {
-    const randomIndex = Math.floor(Math.random() * routes.length);
-    setPlayerCards((prev) => [...prev, routes[randomIndex]]);
-
-    if (routes[randomIndex].value == "A" && playerPoinstRef.current + 11 <= 21) {
-      routes[randomIndex].value = 11;
+  // Add card value calculation function
+  const calculateCardValue = (card, currentPoints) => {
+    if (card.value === "A") {
+      return currentPoints + 11 <= 21 ? 11 : 1;
     }
-    if (routes[randomIndex].value == "A" && playerPoinstRef.current + 11 > 21) {
-      routes[randomIndex].value = 1;
-    }
-
-    playerPoinstRef.current = parseInt(playerPoinstRef.current) + parseInt(routes[randomIndex].value);
-
-    console.log("player points: " + playerPoinstRef.current);
+    return parseInt(card.value);
   };
 
+  // Improve hit function
+  const hit = () => {
+    const randomIndex = Math.floor(Math.random() * routes.length);
+    const newCard = routes[randomIndex];
+    setPlayerCards((prev) => [...prev, newCard]);
+    
+    const cardValue = calculateCardValue(newCard, playerPointsRef.current);
+    playerPointsRef.current += cardValue;
+    console.log("player points: " + playerPointsRef.current);
+  };
+
+  // Improve hitDealer function
   function hitDealer() {
     const randomIndex = Math.floor(Math.random() * routes.length);
-    setDealerCards((prev) => [...prev, routes[randomIndex]]);
-
-    if (routes[randomIndex].value == "A" && dealerPoinstRef.current + 11 <= 21) {
-      routes[randomIndex].value = 11;
-    }
-    if (routes[randomIndex].value == "A" && dealerPoinstRef.current + 11 > 21) {
-      routes[randomIndex].value = 1;
-    }
-    dealerPoinstRef.current = parseInt(dealerPoinstRef.current) + parseInt(routes[randomIndex].value);
-
-    console.log("dealer points: " + dealerPoinstRef.current);
-
+    const newCard = routes[randomIndex];
+    setDealerCards((prev) => [...prev, newCard]);
+    
+    const cardValue = calculateCardValue(newCard, dealerPointsRef.current);
+    dealerPointsRef.current += cardValue;
+    console.log("dealer points: " + dealerPointsRef.current);
   }
 
+  // Improve winner checking
+  const checkWinner = () => {
+    if (gameStatus === 'ended') return;
 
-  // verificar si hay ganador o empate
-  // temporizador para asegurarme de que primero se muestre la carta y despues se muestre el mensaje
-  setTimeout(() => {
+    const playerPoints = playerPointsRef.current;
+    const dealerPoints = dealerPointsRef.current;
 
-    if (playerPoinstRef.current == 21 && dealerPoinstRef.current != 21) {
+    const endGame = (message) => {
+      setGameStatus('ended');
       clearInterval(dealerIntervalRef.current);
-      alert("YOU HAVE BLACKJACK!! YOU WIN!!");
-      goToHome()
+      setTimeout(() => {
+        alert(message);
+        goToHome();
+      }, 500);
+    };
 
+    if (playerPoints === 21 && dealerPoints !== 21) {
+      endGame("YOU HAVE BLACKJACK!! YOU WIN!!");
+    } else if (playerPoints !== 21 && dealerPoints === 21) {
+      endGame("YOU LOSE... Dealer Has BlackJack");
+    } else if (playerPoints === 21 && dealerPoints === 21) {
+      endGame("DRAW...");
+    } else if (playerPoints > 21) {
+      endGame("YOU LOSE");
+    } else if (dealerPoints > 21) {
+      endGame("YOU WIN!!");
     }
+  };
 
-    if (playerPoinstRef.current != 21 && dealerPoinstRef.current == 21) {
-      clearInterval(dealerIntervalRef.current);
-      alert("YOU LOSE... Dealer Has BlackJack");
-      goToHome()
-
-    }
-
-    if (playerPoinstRef.current == 21 && dealerPoinstRef.current == 21) {
-      clearInterval(dealerIntervalRef.current);
-      alert("DRAW...");
-      goToHome()
-
-    }
-
-    if (playerPoinstRef.current > 21) {
-      alert("YOU LOSE");
-      goToHome()
-    }
-
-    if (dealerPoinstRef.current > 21) {
-      clearInterval(dealerIntervalRef.current);
-      alert("YOU WIN!!");
-      goToHome()
-    }
-
-  }, 1000);
-
+  // Add useEffect for winner checking
+  useEffect(() => {
+    checkWinner();
+  }, [playerCards, dealerCards]);
 
   //Hace que cuando se cargue por primera vez la pagina se repartan primero las cartas de dealer.
   //sin esta cagada se rompe toda la interfaz.
   //parece que por alguna razon todo todo depende de que se reparta primero al dealer o sino todo deja de funcionar
   //Absolutamente Magico...
 
-
   useEffect(() => {
     hitDealer();
     hit();
+
+    return () => {
+      if (dealerIntervalRef.current) {
+        clearInterval(dealerIntervalRef.current);
+      }
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
   }, []);
-
-
-
 
   function playOponent() {
     setIsHidden(true);
 
     dealerIntervalRef.current = setInterval(() => {
+      if (dealerPointsRef.current >= 17) {
+        clearInterval(dealerIntervalRef.current);
+        return;
+      }
       hitDealer();
     }, 2000);
-
   }
 
 
