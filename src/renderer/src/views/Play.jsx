@@ -42,7 +42,6 @@ export const Play = () => {
 
 
 
-  // Array de rutas para las cartas con rutas corregidas
   const routes = [
     // Diamantes
     { path: "cards/svg/image 1.svg", value: "A", suit: "diamante" },
@@ -102,7 +101,6 @@ export const Play = () => {
     { path: "cards/svg/image 52.svg", value: "10", suit: "pica" }
   ];
 
-  // Add card value calculation function
   const calculateCardValue = (card, currentPoints) => {
     if (card.value === "A") {
       return currentPoints + 11 <= 21 ? 11 : 1;
@@ -110,29 +108,26 @@ export const Play = () => {
     return parseInt(card.value);
   };
 
-  // Improve hit function
   const hit = () => {
     const randomIndex = Math.floor(Math.random() * routes.length);
     const newCard = routes[randomIndex];
     setPlayerCards((prev) => [...prev, newCard]);
-    
+
     const cardValue = calculateCardValue(newCard, playerPointsRef.current);
     playerPointsRef.current += cardValue;
     console.log("player points: " + playerPointsRef.current);
   };
 
-  // Improve hitDealer function
   function hitDealer() {
     const randomIndex = Math.floor(Math.random() * routes.length);
     const newCard = routes[randomIndex];
     setDealerCards((prev) => [...prev, newCard]);
-    
+
     const cardValue = calculateCardValue(newCard, dealerPointsRef.current);
     dealerPointsRef.current += cardValue;
     console.log("dealer points: " + dealerPointsRef.current);
   }
 
-  // Improve winner checking
   const checkWinner = () => {
     if (gameStatus === 'ended') return;
 
@@ -161,7 +156,6 @@ export const Play = () => {
     }
   };
 
-  // Add useEffect for winner checking
   useEffect(() => {
     checkWinner();
   }, [playerCards, dealerCards]);
